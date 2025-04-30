@@ -8,7 +8,7 @@ WORKDIR /app
 RUN useradd -m -s /usr/sbin/nologin no &&\
     chown -R no:no /app && \
     chmod -R 755 /app && \
-    npm install --omit=dev
+    npm install
 
 USER no
 
