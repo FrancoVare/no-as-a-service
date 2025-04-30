@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: no-as-a-service
+  namespace: naas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: no-as-a-service
+  template:
+    metadata:
+      labels:
+        app: no-as-a-service
+    spec:
+      containers:
+      - name: no-as-a-service
+        image: ghcr.io/francovare/no-as-a-service:latest
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"

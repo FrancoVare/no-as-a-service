@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: no-as-a-service
+  namespace: naas
+  annotations:
+    tailscale.com/funnel: "true"
+spec:
+  defaultBackend:
+    service:
+      name: no-as-a-service
+      port:
+        number: 3000
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - naas
