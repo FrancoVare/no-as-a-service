@@ -2,16 +2,18 @@ FROM node:23-slim
 
 USER root
 
-COPY . /app
+COPY index.js reasons.json frontend package.json /app/
 WORKDIR /app
 
 RUN useradd -m -s /usr/sbin/nologin no &&\
     chown -R no:no /app && \
     chmod -R 755 /app && \
-    npm install
+    npm install &&\
+    rm -rf package.json && \
+    rm -rf package-lock.json
 
 USER no
 
-EXPOSE 3000
+EXPOSE 8080
 
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
