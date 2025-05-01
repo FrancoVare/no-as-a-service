@@ -25,10 +25,8 @@ const limiter = rateLimit({
   message: { reason: "The answer is still no, please stop asking for a while." }
 });
 
-app.use(limiter);
-
 // Random rejection reason endpoint
-app.get('/no', (req, res) => {
+app.get('/no', limiter, (req, res) => {
   const reason = reasons[Math.floor(Math.random() * reasons.length)];
   res.json({ reason });
 });
