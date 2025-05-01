@@ -31,4 +31,14 @@
     </div>
 </body>
 
+<script>
+    async function setText() {
+        const response = await fetch('/no');
+        const json = await response.json();
+        document.getElementById('text').innerText = json.reason;
+    }
+
+    setText();
+</script>
+
 </html>

@@ -27,19 +27,13 @@ app.get('/no', (req, res) => {
   res.json({ reason });
 });
 
-// Return the index.html file replacing the content of the h2 with 
-// id=text to be the response from the /no endpoint when calling the / endpoint
 app.get('/', (req, res) => {
   const reason = reasons[Math.floor(Math.random() * reasons.length)];
   fs.readFile('./frontend/no.html', 'utf-8', (err, data) => {
     if (err) {
       return res.status(500).send('Error reading index.html');
     }
-    const updatedData = data.replace(
-      '<h2 id="text" class="reason"><\/h2>',
-      `<h2 id="text" class="reason">${reason}</h2>`
-    );
-    res.send(updatedData);
+    res.send(data);
   });
 });
 
