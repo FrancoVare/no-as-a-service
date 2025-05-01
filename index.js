@@ -4,8 +4,10 @@ const fs = require('fs');
 const morgan = require('morgan');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const TRUST_PROXIES = process.env.TRUST_PROXIES || 1;
+const PORT = Number(process.env.PORT) || 3000;
+const TRUST_PROXIES = Number(process.env.TRUST_PROXIES) || 1;
+const RATE_LIMIT_MAX = Number(process.env.RATE_LIMIT_MAX) || 10;
+const RATE_LIMIT_WINDOW_MINUTES = Number(process.env.RATE_LIMIT_WINDOW_MS) || 1;
 
 // Trust proxies for rate limiting
 app.set('trust proxy', TRUST_PROXIES);
@@ -18,9 +20,9 @@ app.use(morgan('combined'));
 
 // Rate limiter: 10 requests per minute per IP
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10,
-  message: { error: "Too many requests, please try again later." }
+  windowMs: 60 * 1000 * RATE_LIMIT_WINDOW_MINUTES, // 1 minute
+  max: RATE_LIMIT_MAX,
+  message: { error: "The answer is still no, please stop asking for a while." }
 });
 
 app.use(limiter);
