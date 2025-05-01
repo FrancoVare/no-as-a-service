@@ -5,6 +5,10 @@ const morgan = require('morgan');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const TRUST_PROXIES = process.env.TRUST_PROXIES || 1;
+
+// Trust proxies for rate limiting
+app.set('trust proxy', TRUST_PROXIES);
 
 // Load reasons from JSON
 const reasons = JSON.parse(fs.readFileSync('./reasons.json', 'utf-8'));
