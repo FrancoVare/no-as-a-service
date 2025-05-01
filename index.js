@@ -8,12 +8,10 @@ const PORT = Number(process.env.PORT) || 3000;
 const TRUST_PROXIES = Number(process.env.TRUST_PROXIES) || 1;
 const RATE_LIMIT_MAX = Number(process.env.RATE_LIMIT_MAX) || 10;
 const RATE_LIMIT_WINDOW_MINUTES = Number(process.env.RATE_LIMIT_WINDOW_MS) || 1;
+const REASONS_URL = process.env.REASONS_URL || 'https://raw.githubusercontent.com/hotheadhacker/no-as-a-service/refs/heads/main/reasons.json';
 
 // Trust proxies for rate limiting
 app.set('trust proxy', TRUST_PROXIES);
-
-// Load reasons from JSON
-const reasons = JSON.parse(fs.readFileSync('./reasons.json', 'utf-8'));
 
 // Middleware to log requests
 app.use(morgan('combined'));
@@ -43,6 +41,19 @@ app.get('/', (req, res) => {
 
 // Serve static files from the frontend directory
 app.use('/frontend', express.static('frontend/public'));
+
+// Load reasons from JSON
+const response = await fetch(REASONS_URL);
+const reasons = [];
+
+if (!response.ok) {
+  console.error(`Failed to fetch reasons: ${response.statusText}, using local file as fallback`);
+  reasons = JSON.parse(fs.readFileSync('./reasons.json', 'utf-8'));
+} else {
+  console.log(`Fetched reasons from ${REASONS_URL}`);
+  const reasonsJson = await response.json();
+  reasons = reasonsJson.reasons;
+}
 
 // Start server
 app.listen(PORT, () => {
