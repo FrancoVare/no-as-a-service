@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 });
 
 // Serve static files from the frontend directory
-app.use('public', express.static('public'));
+app.use('/public', express.static('public'));
 
 // Load reasons from JSON
 async function fetchData() {
