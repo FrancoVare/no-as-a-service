@@ -35,8 +35,11 @@
 <script>
     async function setText() {
         const response = await fetch('/no');
-        const json = await response.json();
-        document.getElementById('text').innerText = json.reason;
+        if (!response.ok) {
+            document.getElementById('text').innerText = response.json().error;
+            return;
+        }
+        document.getElementById('text').innerText = response.json().reason;
     }
 
     setText();
