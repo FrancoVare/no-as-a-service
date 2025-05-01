@@ -22,7 +22,7 @@ app.use(morgan('combined'));
 const limiter = rateLimit({
   windowMs: 60 * 1000 * RATE_LIMIT_WINDOW_MINUTES, // 1 minute
   max: RATE_LIMIT_MAX,
-  message: { error: "The answer is still no, please stop asking for a while." }
+  message: { reason: "The answer is still no, please stop asking for a while." }
 });
 
 app.use(limiter);

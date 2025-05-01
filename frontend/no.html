@@ -1,48 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charSet="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>No</title>
-    <link rel="icon" type="image/svg+xml" href="/frontend/circle-xmark-regular.svg">
-    <link rel="stylesheet" href="/frontend/no.css" data-n-g="" />
-    <link rel="preload" href="/no" as="fetch" crossOrigin="anonymous">
-</head>
+    <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>No</title>
+        <link rel="icon" type="image/svg+xml" href="/frontend/circle-xmark-regular.svg">
+        <link rel="stylesheet" href="/frontend/no.css" />
+        <link rel="preload" href="/no" as="fetch" crossOrigin="anonymous">
+    </head>
 
-<body>
-    <div id="__main">
-        <div class="wrapper no">
-            <div class="item">
-                <h3 class="tagline">My answer is</h3>
-                <h2 id="text" class="reason"></h2>
-            </div>
-            <div class="meta">
-                <ul class="footer-list">
-                    <li>Source:<!-- --> <a target="_blank" rel="noopener noreferrer"
-                            href="https://github.com/FrancoVare/no-as-a-service">Github</a></li>
-                </ul>
-                <ul class="footer-list">
-                    <li>A fork of:<!-- --> <a target="_blank" rel="noopener noreferrer"
-                            href="https://github.com/hotheadhacker/no-as-a-service">hotheadhacker/no-as-a-service</a>
-                    </li>
-                </ul>
+    <body>
+        <div id="main">
+            <div class="wrapper no">
+                <div class="item">
+                    <h3 class="tagline">My answer is</h3>
+                    <h2 id="text" class="reason"></h2>
+                </div>
+                <div class="meta">
+                    <ul class="footer-list">
+                        <li>Source: <a target="_blank" rel="noopener noreferrer" href="https://github.com/FrancoVare/no-as-a-service">Github</a></li>
+                    </ul>
+                    <ul class="footer-list">
+                        <li>A fork of: <a target="_blank" rel="noopener noreferrer" href="https://github.com/hotheadhacker/no-as-a-service">hotheadhacker/no-as-a-service</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 
-<script>
-    async function setText() {
-        const response = await fetch('/no');
-        if (!response.ok) {
-            document.getElementById('text').innerText = response.json().error;
-            return;
+    <script>
+        async function setText() {
+            const response = await fetch('/no');
+            const json = await response.json();
+            document.getElementById('text').innerText = json.reason;
         }
-        document.getElementById('text').innerText = response.json().reason;
-    }
 
-    setText();
-</script>
+        setText();
+    </script>
 
 </html>
