@@ -32,17 +32,16 @@ app.get('/no', limiter, (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  const reason = reasons[Math.floor(Math.random() * reasons.length)];
-  fs.readFile('./frontend/no.html', 'utf-8', (err, data) => {
+  fs.readFile('no.html', 'utf-8', (err, data) => {
     if (err) {
-      return res.status(500).send('Error reading index.html');
+      return res.status(500).send('Error reading no.html');
     }
     res.send(data);
   });
 });
 
 // Serve static files from the frontend directory
-app.use('/frontend', express.static('frontend/public'));
+app.use('public', express.static('public'));
 
 // Load reasons from JSON
 async function fetchData() {
